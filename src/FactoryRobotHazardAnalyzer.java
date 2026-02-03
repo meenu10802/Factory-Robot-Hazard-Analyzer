@@ -1,45 +1,54 @@
+/*
+ * FactoryRobotHazardAnalyzer
+ * --------------------------
+ * This class contains the main method.
+ * It accepts user inputs and invokes the
+ * RobotHazardAuditor to calculate the hazard risk.
+ *
+ * It also handles RobotSafetyException using try-catch.
+ */
 import java.util.Scanner;
 
-/*
- * UC4_RobotHazardValidation
- * ------------------------
- * Validates inputs using conditional logic before calculation.
- */
-class UC4_RobotHazardValidation {
+public class FactoryRobotHazardAnalyzer {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        // Display application title
+        System.out.println("Factory Robot Hazard Analyzer");
 
-        System.out.println("Enter Arm Precision:");
-        double armPrecision = scanner.nextDouble();
+        // Create Scanner object for input
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println("Enter Worker Density:");
-        int workerDensity = scanner.nextInt();
+        // Read arm precision
+        System.out.println("Enter Arm Precision (0.0 - 1.0):");
+        double armPrecision = sc.nextDouble();
 
-        System.out.println("Enter Machinery State:");
-        String machineryState = scanner.next();
+        // Read worker density
+        System.out.println("Enter Worker Density (1 - 20):");
+        int workerDensity = sc.nextInt();
+        sc.nextLine(); // consume newline
 
-        // Validate arm precision
-        if (armPrecision < 0.0 || armPrecision > 1.0) {
-            System.out.println("Invalid Arm Precision");
-        }
-        // Validate worker density
-        else if (workerDensity < 1 || workerDensity > 20) {
-            System.out.println("Invalid Worker Density");
-        }
-        // Validate machinery state
-        else if (!machineryState.equals("Worn")
-                && !machineryState.equals("Faulty")
-                && !machineryState.equals("Critical")) {
-            System.out.println("Invalid Machinery State");
-        }
-        else {
-            double risk = ((1.0 - armPrecision) * 15.0)
-                    + (workerDensity * 2.0);
+        // Read machinery state
+        System.out.println("Enter Machinery State (Worn/Faulty/Critical):");
+        String machineryState = sc.nextLine();
+
+        // Create RobotHazardAuditor object
+        RobotHazardAuditor auditor = new RobotHazardAuditor();
+
+        try {
+            // Call method to calculate hazard risk
+            double risk = auditor.calculateHazardRisk(
+                    armPrecision,
+                    workerDensity,
+                    machineryState
+            );
+
+            // Display hazard risk score
             System.out.println("Robot Hazard Risk Score: " + risk);
-        }
 
-        scanner.close();
+        } catch (RobotSafetyException e) {
+            // Display exception message
+            System.out.println(e.getMessage());
+        }
     }
 }
