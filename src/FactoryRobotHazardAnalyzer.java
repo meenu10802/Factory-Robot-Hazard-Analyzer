@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 /*
- * UC3_RobotHazardCalculation
- * -------------------------
- * Calculates hazard risk score assuming all inputs are valid.
+ * UC4_RobotHazardValidation
+ * ------------------------
+ * Validates inputs using conditional logic before calculation.
  */
-class UC3_RobotHazardCalculation {
+class UC4_RobotHazardValidation {
 
     public static void main(String[] args) {
 
@@ -20,14 +20,25 @@ class UC3_RobotHazardCalculation {
         System.out.println("Enter Machinery State:");
         String machineryState = scanner.next();
 
-        // Temporary risk factor (assumed)
-        double machineRiskFactor = 2.0;
-
-        // Hazard risk calculation
-        double risk = ((1.0 - armPrecision) * 15.0)
-                + (workerDensity * machineRiskFactor);
-
-        System.out.println("Robot Hazard Risk Score: " + risk);
+        // Validate arm precision
+        if (armPrecision < 0.0 || armPrecision > 1.0) {
+            System.out.println("Invalid Arm Precision");
+        }
+        // Validate worker density
+        else if (workerDensity < 1 || workerDensity > 20) {
+            System.out.println("Invalid Worker Density");
+        }
+        // Validate machinery state
+        else if (!machineryState.equals("Worn")
+                && !machineryState.equals("Faulty")
+                && !machineryState.equals("Critical")) {
+            System.out.println("Invalid Machinery State");
+        }
+        else {
+            double risk = ((1.0 - armPrecision) * 15.0)
+                    + (workerDensity * 2.0);
+            System.out.println("Robot Hazard Risk Score: " + risk);
+        }
 
         scanner.close();
     }
