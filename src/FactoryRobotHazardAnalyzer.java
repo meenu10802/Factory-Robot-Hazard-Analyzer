@@ -1,33 +1,33 @@
 import java.util.Scanner;
 
 /*
- * UC2_RobotHazardInput
- * -------------------
- * Accepts robot hazard-related inputs from the user
- * and echoes them back without validation.
+ * UC3_RobotHazardCalculation
+ * -------------------------
+ * Calculates hazard risk score assuming all inputs are valid.
  */
-class UC2_RobotHazardInput {
+class UC3_RobotHazardCalculation {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Read arm precision
         System.out.println("Enter Arm Precision:");
         double armPrecision = scanner.nextDouble();
 
-        // Read worker density
         System.out.println("Enter Worker Density:");
         int workerDensity = scanner.nextInt();
 
-        // Read machinery state
         System.out.println("Enter Machinery State:");
         String machineryState = scanner.next();
 
-        // Echo inputs
-        System.out.println("Arm Precision: " + armPrecision);
-        System.out.println("Worker Density: " + workerDensity);
-        System.out.println("Machinery State: " + machineryState);
+        // Temporary risk factor (assumed)
+        double machineRiskFactor = 2.0;
+
+        // Hazard risk calculation
+        double risk = ((1.0 - armPrecision) * 15.0)
+                + (workerDensity * machineRiskFactor);
+
+        System.out.println("Robot Hazard Risk Score: " + risk);
 
         scanner.close();
     }
